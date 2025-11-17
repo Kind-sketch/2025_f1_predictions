@@ -31,29 +31,78 @@ This repository contains a **Gradient Boosting Machine Learning model** that pre
 - `scikit-learn`
 - `matplotlib`
 
-## File Structure 
-- For every race the end of the file will be numbered in correlation to the race on the calendar, ex. prediction1 - Australia, prediction2 - China, etc.
+## 📁 Project Structure
+
+```
+2025_f1_predictions/
+├── model/              # Unified ML pipeline modules
+├── races/              # Race configuration files (JSON)
+├── predictions/        # Generated prediction outputs (JSON)
+├── api/                # FastAPI backend
+├── frontend/           # React frontend
+├── run_prediction.py   # CLI tool for generating predictions
+└── docs/               # Documentation
+```
+
+See `docs/REFACTORING_GUIDE.md` for detailed architecture documentation.
 
 ## 🔧 Usage
-Run the prediction script:
+
+### Quick Start
+
+1. **Set up environment:**
 ```bash
-python3 prediction1.py
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
 ```
-Expected output:
+
+2. **Set environment variables (optional, for weather data):**
+```bash
+export OPENWEATHER_API_KEY=your_api_key_here
+# Or create a .env file
 ```
-🏁 Predicted 2025 Australian GP Winner 🏁
-Driver: Charles Leclerc, Predicted Race Time: 82.67s
-...
-🔍 Model Error (MAE): 3.22 seconds
+
+3. **Generate predictions:**
+```bash
+python run_prediction.py --race australia
+python run_prediction.py --race china
+python run_prediction.py --race japan
 ```
+
+4. **Run the API backend:**
+```bash
+python api/main.py
+```
+
+5. **Run the frontend:**
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+### Old Scripts (Legacy)
+
+The original `prediction1.py` through `prediction8.py` scripts are preserved for reference but are no longer the primary method. See `docs/REFACTORING_GUIDE.md` for migration details.
 
 ## 📈 Model Performance
 The Mean Absolute Error (MAE) is used to evaluate how well the model predicts race times. Lower MAE values indicate more accurate predictions.
 
+## ✨ Recent Improvements
+
+- ✅ **Unified ML Pipeline**: Single codebase for all races
+- ✅ **Configuration-Driven**: Races defined in JSON configs
+- ✅ **Standardized JSON Output**: Consistent prediction format
+- ✅ **FastAPI Backend**: RESTful API for predictions
+- ✅ **React Frontend**: Interactive charts and visualizations
+- ✅ **Environment Variables**: Secure API key management
+- ✅ **Schema Validation**: Predictions validated before saving
+
 ## 📌 Future Improvements
-- Incorporate **weather conditions** as a feature
 - Add **pit stop strategies** into the model
 - Explore **deep learning** models for improved accuracy
+- Add more feature engineering options
 - @mar_antaya on Instagram and TikTok will update with the latest predictions before every race of the 2025 F1 season
 
 ## 📜 License

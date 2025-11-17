@@ -2,6 +2,7 @@ import fastf1
 import pandas as pd
 import numpy as np
 import requests
+import os
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import GradientBoostingRegressor
 from sklearn.metrics import mean_absolute_error
@@ -62,16 +63,27 @@ season_points = {
 qualifying_2025["SeasonPoints"] = qualifying_2025["Driver"].map(season_points)
 
 # weather data
-API_KEY = "YOURAPIKEY"
-weather_url = f"http://api.openweathermap.org/data/2.5/forecast?lat=26.0325&lon=50.5106&appid={API_KEY}&units=metric"
-response = requests.get(weather_url)
-weather_data = response.json()
-
-forecast_time = "2025-04-30 15:00:00"
-forecast_data = next((f for f in weather_data["list"] if f["dt_txt"] == forecast_time), None)
-
-rain_probability = forecast_data["pop"] if forecast_data else 0
-temperature = forecast_data["main"]["temp"] if forecast_data else 20
+API_KEY = os.getenv("OPENWEATHER_API_KEY")
+if not API_KEY or API_KEY == "YOURAPIKEY":
+    print("⚠️  Warning: OPENWEATHER_API_KEY not set. Using default weather values.")
+    rain_probability = 0
+    temperature = 20
+else:
+    weather_url = f"http://api.openweathermap.org/data/2.5/forecast?lat=26.0325&lon=50.5106&appid={API_KEY}&units=metric"
+    try:
+        response = requests.get(weather_url, timeout=10)
+        response.raise_for_status()
+        weather_data = response.json()
+        
+        forecast_time = "2025-04-30 15:00:00"
+        forecast_data = next((f for f in weather_data.get("list", []) if f.get("dt_txt") == forecast_time), None)
+        
+        rain_probability = forecast_data.get("pop", 0) if forecast_data else 0
+        temperature = forecast_data.get("main", {}).get("temp", 20) if forecast_data else 20
+    except Exception as e:
+        print(f"⚠️  Warning: Failed to fetch weather data: {e}. Using default values.")
+        rain_probability = 0
+        temperature = 20
 
 # merge sector time data
 merged_data = qualifying_2025.merge(sector_times_2024, on="Driver", how="left")

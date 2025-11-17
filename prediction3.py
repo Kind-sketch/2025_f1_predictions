@@ -2,6 +2,7 @@ import fastf1
 import pandas as pd
 import numpy as np
 import requests
+import os
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import GradientBoostingRegressor
 from sklearn.metrics import mean_absolute_error
@@ -45,26 +46,37 @@ driver_wet_performance = {
 qualifying_2025["WetPerformanceFactor"] = qualifying_2025["Driver"].map(driver_wet_performance)
 
 # Weather Data
-API_KEY = "YOURAPIKEY"
-weather_url = f"http://api.openweathermap.org/data/2.5/forecast?lat=34.8823&lon=136.5845&appid={API_KEY}&units=metric"
-response = requests.get(weather_url)
-weather_data = response.json()
-print(weather_data)
-
-# Extract the relevant weather data for the race (Sunday at 2pm local time)
-forecast_time = "2025-04-05 14:00:00"
-forecast_data = None
-for forecast in weather_data["list"]:
-    if forecast["dt_txt"] == forecast_time:
-        forecast_data = forecast
-        break
-
-if forecast_data:
-    rain_probability = forecast_data["pop"]
-    temperature = forecast_data["main"]["temp"]  
+API_KEY = os.getenv("OPENWEATHER_API_KEY")
+if not API_KEY or API_KEY == "YOURAPIKEY":
+    print("⚠️  Warning: OPENWEATHER_API_KEY not set. Using default weather values.")
+    rain_probability = 0
+    temperature = 20
 else:
-    rain_probability = 0 
-    temperature = 20 
+    weather_url = f"http://api.openweathermap.org/data/2.5/forecast?lat=34.8823&lon=136.5845&appid={API_KEY}&units=metric"
+    try:
+        response = requests.get(weather_url, timeout=10)
+        response.raise_for_status()
+        weather_data = response.json()
+        print(weather_data)
+        
+        # Extract the relevant weather data for the race (Sunday at 2pm local time)
+        forecast_time = "2025-04-05 14:00:00"
+        forecast_data = None
+        for forecast in weather_data.get("list", []):
+            if forecast.get("dt_txt") == forecast_time:
+                forecast_data = forecast
+                break
+        
+        if forecast_data:
+            rain_probability = forecast_data.get("pop", 0)
+            temperature = forecast_data.get("main", {}).get("temp", 20)
+        else:
+            rain_probability = 0
+            temperature = 20
+    except Exception as e:
+        print(f"⚠️  Warning: Failed to fetch weather data: {e}. Using default values.")
+        rain_probability = 0
+        temperature = 20 
 
 # Merge qualifying data with sector times data 
 merged_data = qualifying_2025.merge(sector_times_2024, left_on="Driver", right_on="Driver", how="left")

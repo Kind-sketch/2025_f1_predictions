@@ -1,0 +1,60 @@
+{
+  "race_id": "monaco",
+  "race_name": "Monaco Grand Prix",
+  "year": 2025,
+  "training_race": {
+    "year": 2024,
+    "identifier": 8,
+    "type": "R"
+  },
+  "qualifying_data": [
+    {"driver": "VER", "qualifying_time": 70.669},
+    {"driver": "NOR", "qualifying_time": 69.954},
+    {"driver": "PIA", "qualifying_time": 70.129},
+    {"driver": "RUS", "qualifying_time": null},
+    {"driver": "SAI", "qualifying_time": 71.362},
+    {"driver": "ALB", "qualifying_time": 71.213},
+    {"driver": "LEC", "qualifying_time": 70.063},
+    {"driver": "OCO", "qualifying_time": 70.942},
+    {"driver": "HAM", "qualifying_time": 70.382},
+    {"driver": "STR", "qualifying_time": 72.563},
+    {"driver": "GAS", "qualifying_time": 71.994},
+    {"driver": "ALO", "qualifying_time": 70.924},
+    {"driver": "HUL", "qualifying_time": 71.596}
+  ],
+  "weather": {
+    "latitude": 43.7384,
+    "longitude": 7.4246,
+    "forecast_time": "2025-05-25 13:00:00"
+  },
+  "features": [
+    "QualifyingTime",
+    "RainProbability",
+    "Temperature",
+    "TeamPerformanceScore",
+    "CleanAirRacePace (s)",
+    "AveragePositionChange"
+  ],
+  "model_params": {
+    "n_estimators": 100,
+    "learning_rate": 0.7,
+    "max_depth": 3,
+    "random_state": 37
+  },
+  "average_position_change": {
+    "VER": -1.0,
+    "NOR": 1.0,
+    "PIA": 0.2,
+    "RUS": 0.5,
+    "SAI": -0.3,
+    "ALB": 0.8,
+    "LEC": -1.5,
+    "OCO": -0.2,
+    "HAM": 0.3,
+    "STR": 1.1,
+    "GAS": -0.4,
+    "ALO": -0.6,
+    "HUL": 0.0
+  }
+}
+

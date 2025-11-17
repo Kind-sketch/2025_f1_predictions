@@ -1,0 +1,48 @@
+{
+  "race_id": "las_vegas",
+  "race_name": "Las Vegas Grand Prix",
+  "year": 2025,
+  "training_race": {
+    "year": 2024,
+    "identifier": "Las Vegas",
+    "type": "R"
+  },
+  "qualifying_data": [
+    {"driver": "VER", "qualifying_time": 93.295},
+    {"driver": "LEC", "qualifying_time": 93.376},
+    {"driver": "NOR", "qualifying_time": 93.417},
+    {"driver": "SAI", "qualifying_time": 93.418},
+    {"driver": "RUS", "qualifying_time": 93.433},
+    {"driver": "HAM", "qualifying_time": 93.443},
+    {"driver": "PIA", "qualifying_time": 93.445},
+    {"driver": "ALB", "qualifying_time": 93.456},
+    {"driver": "OCO", "qualifying_time": 93.467},
+    {"driver": "GAS", "qualifying_time": 93.478},
+    {"driver": "TSU", "qualifying_time": 93.489},
+    {"driver": "ALO", "qualifying_time": 93.500},
+    {"driver": "STR", "qualifying_time": 93.511},
+    {"driver": "HUL", "qualifying_time": 93.522}
+  ],
+  "weather": {
+    "latitude": 36.1147,
+    "longitude": -115.1728,
+    "forecast_time": "2025-11-23 01:00:00"
+  },
+  "features": [
+    "QualifyingTime (s)",
+    "Sector1Time (s)",
+    "Sector2Time (s)",
+    "Sector3Time (s)",
+    "WetPerformanceFactor",
+    "RainProbability",
+    "Temperature",
+    "TeamPerformanceScore",
+    "CleanAirRacePace (s)"
+  ],
+  "model_params": {
+    "n_estimators": 200,
+    "learning_rate": 0.1,
+    "random_state": 38
+  }
+}
+

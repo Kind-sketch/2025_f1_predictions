@@ -1,0 +1,45 @@
+{
+  "race_id": "japan",
+  "race_name": "Japanese Grand Prix",
+  "year": 2025,
+  "training_race": {
+    "year": 2024,
+    "identifier": "Japan",
+    "type": "R"
+  },
+  "qualifying_data": [
+    {"driver": "VER", "qualifying_time": 86.983},
+    {"driver": "NOR", "qualifying_time": 86.995},
+    {"driver": "PIA", "qualifying_time": 87.027},
+    {"driver": "LEC", "qualifying_time": 87.299},
+    {"driver": "RUS", "qualifying_time": 87.318},
+    {"driver": "HAM", "qualifying_time": 87.610},
+    {"driver": "GAS", "qualifying_time": 87.822},
+    {"driver": "ALO", "qualifying_time": 87.897},
+    {"driver": "TSU", "qualifying_time": 88.000},
+    {"driver": "SAI", "qualifying_time": 87.836},
+    {"driver": "HUL", "qualifying_time": 88.570},
+    {"driver": "OCO", "qualifying_time": 88.696},
+    {"driver": "STR", "qualifying_time": 89.271}
+  ],
+  "weather": {
+    "latitude": 34.8823,
+    "longitude": 136.5845,
+    "forecast_time": "2025-04-05 14:00:00"
+  },
+  "features": [
+    "QualifyingTime (s)",
+    "Sector1Time (s)",
+    "Sector2Time (s)",
+    "Sector3Time (s)",
+    "WetPerformanceFactor",
+    "RainProbability",
+    "Temperature"
+  ],
+  "model_params": {
+    "n_estimators": 200,
+    "learning_rate": 0.1,
+    "random_state": 38
+  }
+}
+

@@ -1,0 +1,61 @@
+{
+  "race_id": "bahrain",
+  "race_name": "Bahrain Grand Prix",
+  "year": 2025,
+  "training_race": {
+    "year": 2024,
+    "identifier": "Bahrain",
+    "type": "R"
+  },
+  "qualifying_data": [
+    {"driver": "VER", "qualifying_time": 90.423},
+    {"driver": "NOR", "qualifying_time": 90.267},
+    {"driver": "PIA", "qualifying_time": 89.841},
+    {"driver": "LEC", "qualifying_time": 90.175},
+    {"driver": "RUS", "qualifying_time": 90.009},
+    {"driver": "HAM", "qualifying_time": 90.772},
+    {"driver": "GAS", "qualifying_time": 90.216},
+    {"driver": "ALO", "qualifying_time": 91.886},
+    {"driver": "TSU", "qualifying_time": 91.303},
+    {"driver": "SAI", "qualifying_time": 90.680},
+    {"driver": "HUL", "qualifying_time": 92.067},
+    {"driver": "OCO", "qualifying_time": 91.886},
+    {"driver": "STR", "qualifying_time": 92.283}
+  ],
+  "weather": {
+    "latitude": 26.0325,
+    "longitude": 50.5106,
+    "forecast_time": "2025-04-30 15:00:00"
+  },
+  "features": [
+    "QualifyingTime (s)",
+    "Sector1Time (s)",
+    "Sector2Time (s)",
+    "Sector3Time (s)",
+    "WetPerformanceFactor",
+    "RainProbability",
+    "Temperature",
+    "SeasonPoints"
+  ],
+  "model_params": {
+    "n_estimators": 200,
+    "learning_rate": 0.1,
+    "random_state": 38
+  },
+  "season_points": {
+    "VER": 61,
+    "NOR": 62,
+    "PIA": 80,
+    "LEC": 20,
+    "RUS": 20,
+    "HAM": 20,
+    "GAS": 20,
+    "ALO": 20,
+    "TSU": 20,
+    "SAI": 20,
+    "HUL": 2,
+    "OCO": 8,
+    "STR": 11
+  }
+}
+

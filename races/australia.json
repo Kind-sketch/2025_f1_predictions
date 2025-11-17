@@ -1,0 +1,38 @@
+{
+  "race_id": "australia",
+  "race_name": "Australian Grand Prix",
+  "year": 2025,
+  "training_race": {
+    "year": 2024,
+    "identifier": 3,
+    "type": "R"
+  },
+  "qualifying_data": [
+    {"driver": "Lando Norris", "qualifying_time": 75.096},
+    {"driver": "Oscar Piastri", "qualifying_time": 75.180},
+    {"driver": "Max Verstappen", "qualifying_time": 75.481},
+    {"driver": "George Russell", "qualifying_time": 75.546},
+    {"driver": "Yuki Tsunoda", "qualifying_time": 75.670},
+    {"driver": "Alexander Albon", "qualifying_time": 75.737},
+    {"driver": "Charles Leclerc", "qualifying_time": 75.755},
+    {"driver": "Lewis Hamilton", "qualifying_time": 75.973},
+    {"driver": "Pierre Gasly", "qualifying_time": 75.980},
+    {"driver": "Carlos Sainz", "qualifying_time": 76.062},
+    {"driver": "Fernando Alonso", "qualifying_time": 76.4},
+    {"driver": "Lance Stroll", "qualifying_time": 76.5}
+  ],
+  "weather": {
+    "latitude": -37.8497,
+    "longitude": 144.9681,
+    "forecast_time": "2025-03-23 15:00:00"
+  },
+  "features": [
+    "QualifyingTime (s)"
+  ],
+  "model_params": {
+    "n_estimators": 100,
+    "learning_rate": 0.1,
+    "random_state": 39
+  }
+}
+

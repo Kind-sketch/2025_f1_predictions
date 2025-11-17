@@ -1,0 +1,49 @@
+{
+  "race_id": "china",
+  "race_name": "Chinese Grand Prix",
+  "year": 2025,
+  "training_race": {
+    "year": 2024,
+    "identifier": "China",
+    "type": "R"
+  },
+  "qualifying_data": [
+    {"driver": "Oscar Piastri", "qualifying_time": 90.641},
+    {"driver": "George Russell", "qualifying_time": 90.723},
+    {"driver": "Lando Norris", "qualifying_time": 90.793},
+    {"driver": "Max Verstappen", "qualifying_time": 90.817},
+    {"driver": "Lewis Hamilton", "qualifying_time": 90.927},
+    {"driver": "Charles Leclerc", "qualifying_time": 91.021},
+    {"driver": "Isack Hadjar", "qualifying_time": 91.079},
+    {"driver": "Andrea Kimi Antonelli", "qualifying_time": 91.103},
+    {"driver": "Yuki Tsunoda", "qualifying_time": 91.638},
+    {"driver": "Alexander Albon", "qualifying_time": 91.706},
+    {"driver": "Esteban Ocon", "qualifying_time": 91.625},
+    {"driver": "Nico Hülkenberg", "qualifying_time": 91.632},
+    {"driver": "Fernando Alonso", "qualifying_time": 91.688},
+    {"driver": "Lance Stroll", "qualifying_time": 91.773},
+    {"driver": "Carlos Sainz Jr.", "qualifying_time": 91.840},
+    {"driver": "Pierre Gasly", "qualifying_time": 91.992},
+    {"driver": "Oliver Bearman", "qualifying_time": 92.018},
+    {"driver": "Jack Doohan", "qualifying_time": 92.092},
+    {"driver": "Gabriel Bortoleto", "qualifying_time": 92.141},
+    {"driver": "Liam Lawson", "qualifying_time": 92.174}
+  ],
+  "weather": {
+    "latitude": 31.3389,
+    "longitude": 121.2206,
+    "forecast_time": "2025-04-20 15:00:00"
+  },
+  "features": [
+    "QualifyingTime (s)",
+    "Sector1Time (s)",
+    "Sector2Time (s)",
+    "Sector3Time (s)"
+  ],
+  "model_params": {
+    "n_estimators": 200,
+    "learning_rate": 0.1,
+    "random_state": 38
+  }
+}
+
