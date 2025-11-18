@@ -1,14 +1,15 @@
+#!/usr/bin/env python3
 """
 FastAPI backend for F1 Race Predictions
 Serves predictions in JSON format for frontend consumption
 """
-from fastapi import FastAPI, HTTPException
-from fastapi.middleware.cors import CORSMiddleware
-from typing import List, Dict, Any, Optional
 import json
 import os
 from pathlib import Path
 from datetime import datetime
+from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+from typing import List, Dict, Any, Optional
 
 app = FastAPI(title="F1 Predictions API", version="1.0.0")
 
@@ -21,11 +22,20 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Paths
-PREDICTIONS_DIR = Path("predictions")
-RACES_DIR = Path("races")
+# Use absolute paths
+BASE_DIR = Path(__file__).resolve().parent.parent
+PREDICTIONS_DIR = BASE_DIR / "predictions"
+RACES_DIR = BASE_DIR / "races"
 
-# Available races (loaded from race configs)
+def list_available_races() -> List[str]:
+    """List available races from race JSON files"""
+    races = []
+    if RACES_DIR.exists():
+        for config_file in RACES_DIR.glob("*.json"):
+            races.append(config_file.stem)
+    return races
+
+
 def get_available_races() -> List[Dict[str, str]]:
     """Load available races from race config files"""
     races = []
@@ -36,17 +46,16 @@ def get_available_races() -> List[Dict[str, str]]:
                     config = json.load(f)
                     races.append({
                         "id": config.get("race_id", config_file.stem),
-                        "name": config.get("race_name", config_file.stem.title())
+                        "name": config.get("race_name", config_file.stem.replace("_", " ").title())
                     })
-            except Exception:
-                continue
-    return races if races else [
-        {"id": "australia", "name": "Australian GP 2025"},
-        {"id": "china", "name": "Chinese GP 2025"},
-        {"id": "japan", "name": "Japanese GP 2025"},
-        {"id": "bahrain", "name": "Bahrain GP 2025"},
-        {"id": "monaco", "name": "Monaco GP 2025"},
-    ]
+            except Exception as e:
+                print(f"Error loading race config {config_file}: {e}")
+                # Still include the race even if config is invalid
+                races.append({
+                    "id": config_file.stem,
+                    "name": config_file.stem.replace("_", " ").title()
+                })
+    return races
 
 
 def load_prediction(race_id: str) -> Optional[Dict[str, Any]]:
@@ -77,25 +86,24 @@ def convert_to_frontend_format(data: Dict[str, Any]) -> Dict[str, Any]:
     Convert prediction JSON to frontend-compatible format
     Maps from new schema to frontend expected format
     """
+    # Transform the new schema to match frontend expectations
     predictions = []
-    for pred in data.get("predictions", []):
+    for driver_data in data.get("drivers", []):
         predictions.append({
-            "driver": pred.get("driver", ""),
-            "predicted_race_time": pred.get("predicted_time", 0.0),
-            "qualifying_time": pred.get("qualifying_time", 0.0),
-            "team": pred.get("team", "Unknown")
+            "driver": driver_data.get("driver", ""),
+            "predicted_race_time": driver_data.get("predicted_time", 0.0),
+            "qualifying_time": 0.0,  # Not available in new schema
+            "team": driver_data.get("team", "Unknown")
         })
-    
-    model_metadata = data.get("model_metadata", {})
     
     return {
         "race": data.get("race", "Unknown Race"),
-        "timestamp": datetime.utcnow().isoformat() + "Z",
-        "features_used": model_metadata.get("features_used", []),
+        "timestamp": data.get("timestamp", datetime.utcnow().isoformat() + "Z"),
+        "features_used": [],  # Not available in new schema
         "predictions": predictions,
         "model": {
-            "type": model_metadata.get("model_type", "GradientBoostingRegressor"),
-            "mae": model_metadata.get("mae", 0.0)
+            "type": "GradientBoostingRegressor",
+            "mae": 0.0
         }
     }
 
@@ -103,6 +111,12 @@ def convert_to_frontend_format(data: Dict[str, Any]) -> Dict[str, Any]:
 @app.get("/")
 def root():
     return {"message": "F1 Predictions API", "version": "1.0.0"}
+
+
+@app.get("/races")
+def get_races():
+    """Return list of race IDs"""
+    return list_available_races()
 
 
 @app.get("/available-races")
@@ -133,29 +147,31 @@ def get_drivers():
     return {"drivers": drivers}
 
 
-@app.get("/predict/race/{race_name}")
-def predict_race(race_name: str):
+@app.get("/predict/race/{race_id}")
+def predict_race(race_id: str):
     """
     Get predictions for a specific race
     
     Args:
-        race_name: Race identifier (e.g., 'australia', 'china', 'japan')
+        race_id: Race identifier (e.g., 'australia', 'china', 'japan', 'las_vegas')
     
     Returns:
         JSON prediction data matching the required schema
     """
-    available_races = get_available_races()
-    race_ids = [r["id"] for r in available_races]
+    # Normalize race_id
+    race_id = race_id.lower()
     
-    # Check if race exists
-    if race_name not in race_ids:
+    # Validate file existence directly
+    race_file = RACES_DIR / f"{race_id}.json"
+    if not race_file.exists():
+        available_races = list_available_races()
         raise HTTPException(
             status_code=404,
-            detail=f"Race '{race_name}' not found. Available races: {', '.join(race_ids)}"
+            detail=f"Race '{race_id}' not found. Available races: {available_races}"
         )
     
     # Try to load prediction
-    prediction = load_prediction(race_name)
+    prediction = load_prediction(race_id)
     
     if prediction:
         return prediction
@@ -163,11 +179,10 @@ def predict_race(race_name: str):
         # Return error if prediction doesn't exist
         raise HTTPException(
             status_code=404,
-            detail=f"Prediction for '{race_name}' not found. Run: python run_prediction.py --race {race_name}"
+            detail=f"Prediction for '{race_id}' not found. Run: python run_prediction.py --race {race_id}"
         )
 
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
-
+    uvicorn.run(app, host="0.0.0.0", port=8001)
